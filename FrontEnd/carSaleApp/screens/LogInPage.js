@@ -1,26 +1,36 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { NativeBaseProvider, Input, Text, Box, VStack, Icon, MaterialIcons, show, Pressable, Button,Image } from 'native-base'
-import { background } from 'native-base/lib/typescript/theme/styled-system'
-
+import { NativeBaseProvider, Input, Text, Box, VStack, Icon, MaterialIcons, show, Pressable, Button, Image, Heading } from 'native-base'
 
 
 export default function LogInPage() {
     return (
         <NativeBaseProvider>
-            
-            <VStack space={4} mt='80%' alignItems={'center'}>
-                <Input  width="65%" variant="rounded" style={styles.textInput} size="lg" placeholder="UserName" />
-                <Input  width="65%" variant="rounded" style={styles.textInput} size="lg" placeholder="Password" />
+            <Box style={styles.boxStyler}>
+                <Box style={styles.topBox}>
+                <Heading  size={'4xl'} style={styles.h1}>
+                    Welcome
+                </Heading>
+                </Box>
+                <VStack style={styles.pane1} space={3} mt='0' alignItems={'center'}>
+                
+                  <Input mt={10} width="70%" variant="rounded" style={styles.textInput} size="lg" placeholder="UserName" />
+                    <Input width="70%" variant="rounded" style={styles.textInput} size="lg" placeholder="Password" />
 
-                <Button mt={"10%"} width={"55%"} style={styles.button1} isHovered="true" variant="subtle" size="lg" colorScheme="green">
-                    Log In
-                </Button>
+                    <Button mt={"10%"} width={"55%"} style={styles.button1} size="lg">
+                        <Text color={"black"} fontWeight={"bold"}>Log In
+                        </Text>
+                    </Button>
+                </VStack>
+                <Button mt={3} style={styles.linkButton} size="md" variant="ghost" colorScheme="dark" width={"40%"} >
+                        <Text  color={"#273c75"} >Forgot Password ?</Text>
+                    </Button>
 
-                <Button size="md" variant="link" colorScheme="darkBlue">
-            Forgot Password ?
-          </Button>
-            </VStack>
+                    <Button style={styles.linkButton}  size="md" variant="ghost" colorScheme="dark" width={"40%"}>
+                        <Text   color={"#273c75"}> Don't have account ?</Text>
+                    </Button>
+            </Box>
+
 
         </NativeBaseProvider>
     )
@@ -28,12 +38,42 @@ export default function LogInPage() {
 
 const styles = StyleSheet.create({
     textInput: {
-        marginBottom: '4%',
+       
         textAlign: 'center',
-  
+        fontSize: 20,
+
+    },
+    h1:{
+        marginTop:347,
+        color:'white',
+        marginLeft:145
+        
+       
     },
     button1: {
         borderRadius: 25,
+        color: '#112D4E',
+        backgroundColor: '#89f98d',
+        fontWeight: 100
 
+    },
+    boxStyler: {
+        backgroundColor:'white',
+        flex: 1,
+      
+    },
+    pane1: {
+        marginTop:'10%',
+        backgroundColor:'white'
+    },
+    topBox: {
+        backgroundColor: '#112D4E',
+        borderBottomLeftRadius:55,
+        height: "50%",
+        width: "100%",
+    },
+    linkButton:{
+        alignSelf:'center',
+        borderRadius:20
     }
 })
