@@ -24,6 +24,92 @@ export default function AddCar({ route, navigation }) {
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
 
+    const takePhotoFromCamera = async () => {
+        const options = {
+            saveToPhotos: true,
+            mediaType: 'photo',
+            includeBase64: true,
+            presentationStyle: 'popover',
+            quality: 1
+        }
+        launchCamera(options, (res) => {
+            if (res.didCancel) {
+                console.log('User Cancled');
+            } else if (res.errorCode) {
+                console.log(res.errorMessage);
+            } else {
+                const data = res.assets[0];
+        
+                setPhoto(data);
+            }
+        });
+       
+    }
+
+    Library = async () => {
+        let options = {
+            saveToPhotos: true,
+            mediaType: 'photo'
+        };
+        const result = await launchImageLibrary(options)
+        setPhoto(result.assets[0])
+
+        console.log(result.assets[0]);
+    }
+    const createFormData = (photo, body) => {
+        const data = new FormData();
+
+        data.append('photo', {
+            name: photo.fileName,
+            type: photo.type,
+            uri:
+                Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
+        });
+
+        console.log(data.uri);
+
+        Object.keys(body).forEach((key) => {
+            data.append(key, body[key]);
+        });
+
+        console.log(data._parts);
+
+        return data;
+    };
+
+    uploadImage = async () => {
+        fetch('http://192.168.43.224:4000/cars/save', {
+            method: 'POST',
+            body: createFormData(photo, {
+                username: username,
+                date: date,
+                location: location,
+                description: description
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'multipart/form-data',
+            },
+
+        })
+            .then((response) => { response.json(); })
+            .then((json) => {
+                alert('Upload success!');
+                clearTextFields();
+            })
+            .catch((error) => {
+                console.log('upload error', error);
+                alert('Upload failed!');
+            });
+    }
+
+    clearTextFields = () => {
+        setPhoto("");
+        setDate("");
+        setLocation("");
+        setDescription("");
+    }
+
     return (
         <NativeBaseProvider>
             <View style={styles.container}>
@@ -36,7 +122,7 @@ export default function AddCar({ route, navigation }) {
                 <Animatable.View animation="fadeInUpBig"
                     style={[styles.footer, {
                     }]}>
-                    
+
                     <VStack space={3} alignItems="center" mt="5%">
                         <Input type="text" style={styles.input} w="80%" placeholder='Date' borderColor={'#9e4c27'} value={date} onChangeText={(e) => { setDate(e) }} />
                         <Input type="text" style={styles.input} require w="80%" placeholder='Location' borderColor={'#9e4c27'} value={location} onChangeText={(e) => { setLocation(e) }} />
@@ -48,7 +134,7 @@ export default function AddCar({ route, navigation }) {
 
                     <HStack space={6} justifyContent={'center'}>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => Library()}>
                             <LinearGradient
                                 style={styles.uploadImgButton}
                                 colors={['#FFCE36', '#E0D1A4']}
@@ -60,7 +146,9 @@ export default function AddCar({ route, navigation }) {
                         </TouchableOpacity>
 
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            takePhotoFromCamera();
+                        }}>
                             <LinearGradient
                                 colors={['#E26838', '#D6A795']}
                                 style={styles.uploadImgButton}
@@ -71,17 +159,17 @@ export default function AddCar({ route, navigation }) {
                             </LinearGradient>
                         </TouchableOpacity>
                     </HStack>
-                    
+
                     <TouchableOpacity>
-                            <LinearGradient
-                                colors={['#189938', '#41BD60']}
-                                style={styles.saveBtn}
-                            >
-                                <Text style={[styles.textButton, {
-                                    color: '#fff'
-                                }]}>Save Vehicle</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                        <LinearGradient
+                            colors={['#189938', '#41BD60']}
+                            style={styles.saveBtn}
+                        >
+                            <Text style={[styles.textButton, {
+                                color: '#fff'
+                            }]}>Save Vehicle</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
 
                 </Animatable.View>
 
@@ -108,12 +196,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 50
     },
-    subContainer:{
-        width:'100%',
-        height:'70%'
+    subContainer: {
+        width: '100%',
+        height: '70%'
     },
-    input:{
-        fontSize:14
+    input: {
+        fontSize: 14
     },
     text_header: {
         color: '#fff',
@@ -136,7 +224,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-       
+
     },
     textButton: {
         fontSize: 17,
@@ -148,15 +236,15 @@ const styles = StyleSheet.create({
         borderColor: "#9e4c27",
         borderWidth: 1,
         marginTop: 15,
-        marginLeft:55
+        marginLeft: 55
     },
-    saveBtn:{
+    saveBtn: {
         marginTop: 27,
         width: '93%',
         height: 45,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        marginLeft:13
+        marginLeft: 13
     }
 })

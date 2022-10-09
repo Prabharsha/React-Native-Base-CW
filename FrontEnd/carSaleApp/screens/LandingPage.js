@@ -1,6 +1,6 @@
 import * as Animatable from 'react-native-animatable';
 import { NativeBaseProvider } from 'native-base'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     View,
     Text,
@@ -13,12 +13,12 @@ import {
     Alert
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { shadow } from 'react-native-paper';
 
 
 
-export default function landingPage() {
 
+export default function landingPage({ navigation }) {
+    useEffect(() =>{console.log(navigation);})
     return (
         <NativeBaseProvider>
             <View styles={styles.container}>
@@ -44,11 +44,11 @@ export default function landingPage() {
                     Welcome !
                 </Text>
 
-                <TouchableOpacity>
-                <Text style={{color: 'white', marginTop:14,fontSize:17}}>Sign In With Account</Text>
+                <TouchableOpacity onPress={()=>{navigation.navigate("SignInPage")}} >
+                <Text style={{color: 'white', marginTop:14,fontSize:17}} >Sign In With Account</Text>
             </TouchableOpacity>
                 <View style={styles.button}></View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{navigation.navigate("SignUpPage")}}>
                     <LinearGradient
                         colors={['#189938', '#93E37F']}
                         style={styles.signIn}>
