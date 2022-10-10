@@ -80,7 +80,7 @@ const SignUpPage = ({ navigation }) => {
         if (username != "" && password != "") {
             console.log(username);
             console.log(password);
-            fetch('http://localhost:4000/user', {
+            fetch('http:// 192.168.1.102:3000/user', {
                 method: 'POST',
                 body: JSON.stringify({
                     username: username,

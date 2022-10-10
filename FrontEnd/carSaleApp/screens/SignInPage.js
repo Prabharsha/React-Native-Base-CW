@@ -10,7 +10,7 @@ import {
     StatusBar,
     Alert
 } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
 
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -145,8 +145,8 @@ const SignInPage = ({ navigation }) => {
                                 // color: colors.text
                             }]}
                             autoCapitalize="none"
-                            onChangeText={(val) => textInputChange(val)}
-                            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                            onChangeText={(e) => setUsername(e)}
+                            // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                         />
                         {data.check_textInputChange ?
                             <Animatable.View
@@ -185,7 +185,7 @@ const SignInPage = ({ navigation }) => {
                                 color: 'gray'
                             }]}
                             autoCapitalize="none"
-                            onChangeText={(val) => handlePasswordChange(val)}
+                            onChangeText={(val) => setPassword(val)}
                         />
                         <TouchableOpacity
                             onPress={updateSecureTextEntry}
@@ -218,7 +218,7 @@ const SignInPage = ({ navigation }) => {
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.signIn}
-                            onPress={() => navigation.navigate('LoadAllVehicles')}
+                            onPress={() => navigation.navigate('LoadAllVehicles',{username:username})}
                         >
                             <LinearGradient
                                 colors={['#189938', '#41BD60']}

@@ -30,20 +30,20 @@ connection.connect(function (err) {
 // })
 
 router.post('/', (req, res) => {
-    console.log(req.body);
-    const username = req.body.username
-    const password = req.body.password
+    console.log(req);
+    // const username = req.body.username
+    // const password = req.body.password
 
-    console.log(req.body);
-    var query = "INSERT INTO users (username,password) VALUES (?, ?)";
+    // console.log(req.body);
+    // var query = "INSERT INTO users (username,password) VALUES (?, ?)";
 
-    connection.query(query, [username, password], (err) => {
-        if (err) {
-            res.send({ 'message': 'duplicate entry' })
-        } else {
-            res.send({ 'message': 'user created!' })
-        }
-    })
+    // connection.query(query, [username, password], (err) => {
+    //     if (err) {
+    //         res.send({ 'message': 'duplicate entry' })
+    //     } else {
+    //         res.send({ 'message': 'user created!' })
+    //     }
+    // })
 
 })
 

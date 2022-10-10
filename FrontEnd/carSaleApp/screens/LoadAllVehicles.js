@@ -1,14 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View, FlatList, useEffect } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native'
+import React, { useState,useEffect } from 'react'
 import { Button, IconButton, MD3Colors } from 'react-native-paper';
 import { HStack, NativeBaseProvider, Input } from 'native-base';
 import * as Animatable from 'react-native-animatable';
 
 
-export default function LoadAllVehicles(route, navigation) {
+export default function LoadAllVehicles({route, navigation}) {
+  
     const [DATA, setDATA] = useState(['Kamal']);
 
-    const [fullname, setFullName] = useState(route.params.fullname);
     const [username, setUsername] = useState(route.params.username);
 
     const [posts, setPosts] = useState([]);
@@ -42,7 +42,7 @@ export default function LoadAllVehicles(route, navigation) {
                         </Button>} placeholderTextColor={'white'} placeholder="Search Here" />
                     </View>
 
-                    <Button icon="car" mode="contained-tonal" textColor='#0A0A0A' buttonColor='#c0edfc' style={styles.uploadImage_btn} onPress={() => { navigation.navigate("AddCar", { username }); }} >
+                    <Button icon="car" mode="contained-tonal" textColor='#0A0A0A' buttonColor='#c0edfc' style={styles.uploadImage_btn} onPress={() => { navigation.navigate("AddCar", { username:username}); }} >
                         Add Vehicle
                     </Button>
 
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         left: 160
     },
-    headerTop:{
+    headerTop: {
         backgroundColor: '#964635'
     },
     container: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         top: -10,
         height: 70,
         width: "60%",
-        
+
     },
     logout_btn: {
         position: 'relative',
